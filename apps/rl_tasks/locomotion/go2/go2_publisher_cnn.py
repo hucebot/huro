@@ -220,9 +220,6 @@ class Go2PolicyController(Node):
                                        int((self.x_range[0] - self.x_range[1]) / self.res), 
                                        int((self.y_range[1] - self.y_range[0]) / self.res)), dtype = torch.float32) # height_map init
         if not sim:
-            # if len(sys.argv)>1:
-            #     ChannelFactoryInitialize(0, sys.argv[1])
-            # else:
             ChannelFactoryInitialize(0, "enp0s31f6")
             sport = SportClient()
             sport.SetTimeout(10.0)
@@ -230,8 +227,6 @@ class Go2PolicyController(Node):
 
             self.get_logger().info("Sitting down...")
             code = sport.StandDown()  # goes from standing to crouched
-            time.sleep(2)
-            code = sport.Sit()        # full sit
             time.sleep(2)
             self.get_logger().info("Robot seated.")
             robot_state = RobotStateClient()
