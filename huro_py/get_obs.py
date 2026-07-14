@@ -224,7 +224,6 @@ def get_obs_lidar_cnn(
     vel,
     height: float,
     prev_actions: torch.tensor,
-    phase_signal: torch.tensor,
     mapper: Mapper,
 ):
     """
