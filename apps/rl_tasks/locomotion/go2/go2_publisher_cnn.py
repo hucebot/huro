@@ -536,7 +536,6 @@ class Go2PolicyController(Node):
             self.low_state,
             self.height_map,
             self.vel,
-            height=0.30,
             prev_actions=self.current_action,
             mapper=self.mapper,
         )

@@ -222,7 +222,6 @@ def get_obs_lidar_cnn(
     lowstate_msg: LowState,
     height_map: torch.tensor,
     vel,
-    height: float,
     prev_actions: torch.tensor,
     mapper: Mapper,
 ):
