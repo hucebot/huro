@@ -216,7 +216,11 @@ class Go2PolicyController(Node):
         self.x_range = [0.8, -0.5] # height_map x range
         self.y_range = [-0.5, 0.5] # height_map y range
         self.res = 0.1 # height map resolution
-        self.height_map = torch.zeros((3, 
+        
+        confidence = True # heightmap channel 1 if a point was detected by the lidar in this cell 0 else
+        height_map_channels = 3 if confidence else 2
+            
+        self.height_map = torch.zeros((height_map_channels, 
                                        int((self.x_range[0] - self.x_range[1]) / self.res), 
                                        int((self.y_range[1] - self.y_range[0]) / self.res)), dtype = torch.float32) # height_map init
         if not sim:

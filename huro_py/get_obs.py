@@ -316,7 +316,12 @@ def get_obs_lidar_cnn(
     # obs[45:49] = should_move * obs[45:49] - 1.0*(~should_move).expand(4)
     # print(obs[45:49])
     # height_data
-    height_map_copy = [height_map[0, :, :].clone().reshape(1,1,height_map.shape[1],height_map.shape[2])  - 0.28] 
+    if height_map.shape[0] == 2:
+        height_map_copy = [height_map[0, :, :].clone().reshape(1,1,height_map.shape[1],height_map.shape[2])  - 0.28] 
+    else:
+        heights = height_map[0, :, :].clone().reshape(1,1,height_map.shape[1],height_map.shape[2])  - 0.28
+        confidences = height_map[2, :, :].clone().reshape(1,1,height_map.shape[1],height_map.shape[2])
+        height_map_copy = [torch.cat(heights, confidences, dim=1)] 
     # print(height_map[0, :, :].clone().reshape(1,1,height_map.shape[1],height_map.shape[2]))
     # print(height_map[0, :, :].clone().flip(0, 1).reshape(1,1,15,10))
     

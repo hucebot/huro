@@ -234,16 +234,22 @@ Utility functions for processing LiDAR data and creating height maps.
 def process_height_map_lidar_frame(height_map: torch.tensor, lidar_msg: PointCloud2, lowstate_msg: LowState, x_range: list, y_range: list, res, delete_count: int = 100, min_x = 0, max_x = 0, min_z = 0, max_z = 0):
     if lidar_msg is None or lowstate_msg is None:
         return 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+    
+    confidence = True if height_map.shape[0] == 3 else False 
 
     grid_size_x = int(height_map.shape[1])
     grid_size_y = int(height_map.shape[2])
 
     hm_height = height_map[0].numpy()
     hm_age = height_map[1].numpy()
+    if confidence:
+        hm_confidence = height_map[2].numpy()
 
     old_cells = hm_age > delete_count
     hm_height[old_cells] = 0.0
     hm_age[old_cells] = 0.0
+    if confidence:
+        hm_confidence[old_cells] = 0.0
     hm_age += 1.0
 
     num_points = int(lidar_msg.width) * int(lidar_msg.height)
@@ -305,6 +311,7 @@ def process_height_map_lidar_frame(height_map: torch.tensor, lidar_msg: PointClo
         
         hm_height[valid_cells] = max_heightmap[valid_cells]
         hm_age[valid_cells] = 0.0
+        hm_confidence[valid_cells] = 1.0
 
 
 LIDAR_PITCH_DEG = torch.tensor(-0.00)
